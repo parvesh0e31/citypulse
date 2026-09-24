@@ -26,7 +26,10 @@ export default function LiveMap({ events = [], links = [] }) {
         >
           <Popup>
             <strong>{event.type}</strong><br />
-            {event.source}: {event.value}<br />
+            {event.value} {event.unit}<br />
+            Zone: {event.zone}<br />
+            Source: {event.source}<br />
+            Time: {new Date(event.timestamp).toLocaleTimeString()}<br />
             Severity: {event.severity}/10
             {event.is_anomaly && <><br /><strong>Rolling anomaly detected</strong></>}
           </Popup>
