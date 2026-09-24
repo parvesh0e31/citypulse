@@ -1,4 +1,3 @@
-import React from 'react';
 import { Activity, Sun, Moon, MapPin, Radio, Clock } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 
