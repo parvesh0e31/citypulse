@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 const ThemeContext = createContext();
 
@@ -33,6 +33,8 @@ export function ThemeProvider({ children }) {
 }
 
 // Custom hook to use the theme easily in any component
+// The provider and hook intentionally share this context module.
+// eslint-disable-next-line react-refresh/only-export-components
 export function useTheme() {
   return useContext(ThemeContext);
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Header from './components/Header';
 import LiveMap from './components/LiveMap';
 import TimelineView from './components/TimelineView'; // <-- Import the Timeline
@@ -11,7 +11,9 @@ export default function App() {
     pulse_score: 100,
     summary: "Initializing district correlation stream...",
     events: [],
-    timeline: [] // <-- Add timeline to initial state
+    timeline: [],
+    links: [],
+    feeds: {}
   });
 
   useEffect(() => {
@@ -19,10 +21,10 @@ export default function App() {
 
     eventSource.onopen = () => setConnectionStatus("LIVE");
 
-    eventSource.onmessage = (event) => {
+    eventSource.addEventListener("civic_state", (event) => {
       setData(JSON.parse(event.data));
       setSimSeconds((prev) => prev + 5);
-    };
+    });
 
     eventSource.onerror = () => setConnectionStatus("STALE / DEGRADED");
 
@@ -64,7 +66,7 @@ export default function App() {
                   <span>{ev.value.toFixed(1)}</span>
                   {ev.is_anomaly && <span className="text-[10px] bg-red-500/20 text-red-500 px-2 py-1 rounded">ANOMALY</span>}
                 </div>
-                <p className="mt-1 text-xs text-slate-400">{ev.source}</p>
+                <p className="mt-1 text-xs text-slate-400">{ev.source} · severity {ev.severity}/10</p>
               </div>
             ))}
           </div>
@@ -82,7 +84,7 @@ export default function App() {
         {/* Lower Canvas Layout: 2/3 Map, 1/3 Timeline */}
         <section className="grid grid-cols-1 gap-4 lg:grid-cols-3 h-[450px]">
           <div className="lg:col-span-2 rounded-xl border border-slate-200 bg-white p-2 shadow-sm transition-colors dark:border-pulseBorder dark:bg-pulsePanel relative z-0 h-full">
-            <LiveMap events={data.events} />
+            <LiveMap events={data.events} links={data.links} />
           </div>
           <div className="lg:col-span-1 h-full">
             <TimelineView timeline={data.timeline} />

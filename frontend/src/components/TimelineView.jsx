@@ -1,4 +1,3 @@
-import React from 'react';
 import { History, AlertTriangle, Info, ShieldAlert } from 'lucide-react';
 
 export default function TimelineView({ timeline = [] }) {
